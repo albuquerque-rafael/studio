@@ -2,6 +2,7 @@ import { Inject } from '@nestjs/common';
 
 import { APP_TOOLKIT, IAppToolkit } from '~app-toolkit/app-toolkit.interface';
 import { PositionTemplate } from '~app-toolkit/decorators/position-template.decorator';
+import { getTokenImg } from '~app-toolkit/helpers/presentation/image.present';
 import { AppTokenTemplatePositionFetcher } from '~position/template/app-token.template.position-fetcher';
 import { GetUnderlyingTokensParams, GetPricePerShareParams } from '~position/template/app-token.template.types';
 
@@ -23,6 +24,10 @@ export class EthereumDineroApxethTokenFetcher extends AppTokenTemplatePositionFe
 
   getContract(address: string) {
     return this.dineroContractFactory.dineroApxeth({ address, network: this.network });
+  }
+
+  async getImages({ appToken }) {
+    return [getTokenImg(appToken.address, this.network)];
   }
 
   async getAddresses(): Promise<string[]> {
